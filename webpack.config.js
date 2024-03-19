@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.ts",
+  entry: "./src/index.js",
   mode: "development",
   devtool: false,
   output: {
@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.js$/,
         use: {
           loader: "babel-loader",
           options: { presets: ["@babel/preset-typescript"] },
@@ -23,15 +23,16 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          "style-loader", 
+          MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",            
+            loader: "css-loader",
             options: {
-              importLoaders: 1
-            }
-          }, 
+              importLoaders: 1,
+            },
+          },
           "postcss-loader",
-        ]},
+        ],
+      },
       // {
       //   test: /\.css$/,
       //   use: [
