@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "buildDev": "webpack serve --config webpack.config.dev.js",
+    "buildProd":"webpack build --config webpack.config.prod.js"
+  },
   "devDependencies": {
     "@babel/cli": "^7.23.9",
     "@babel/core": "^7.24.1",
