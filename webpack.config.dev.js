@@ -1,5 +1,4 @@
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 const config = {
@@ -48,7 +47,6 @@ const config = {
     new HTMLWebpackPlugin({
       template: "./src/index.html",
     }),
-    new MiniCssExtractPlugin(),
   ],
   devServer: {
     static: {
