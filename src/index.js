@@ -1,15 +1,32 @@
 import "./index.css";
+import Icon from "./image.png";
 
 const say = (statements) => {
   console.log(statements);
 };
 
-const component = <div></div>;
+// const component = <div></div>;
 
 say("Tecvan");
-console.log(component);
+// console.log(component);
 
-let dataList;
+function imageComponent() {
+  const element = document.createElement("div");
+
+  // lodash 现在使用 import 引入。
+  // element.innerHTML = _.join(["Hello", "webpack"], " ");
+  element.classList.add("hello");
+
+  // 将图像添加到已经存在的 div 中。
+  const myIcon = new Image();
+  myIcon.src = Icon;
+
+  element.appendChild(myIcon);
+
+  return element;
+}
+document.body.appendChild(imageComponent());
+
 // 使用node来启动一个服务
 const source = new EventSource("http://localhost:8080/getInfo");
 console.log(EventSource.CONNECTING); // 0

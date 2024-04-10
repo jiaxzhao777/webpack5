@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "devServer": "webpack serve",
-    "buildDev": "webpack serve --config webpack.config.dev.js",
+    "devServer": "webpack serve --config webpack.config.dev.js",
+    "buildDev": "webpack build --config webpack.config.dev.js",
     "buildProd": "webpack build --config webpack.config.prod.js"
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ const config = {
   entry: "./src/index.js",
   mode: "development",
   output: {
-    filename: "[name].js",
+    filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
   cache: {
@@ -41,15 +41,19 @@ const config = {
         test: [/\.tmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         type: "asset",
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
     new HTMLWebpackPlugin({
       template: "./src/index.html",
     }),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": '"development"',
-    }),
+    // new webpack.DefinePlugin({
+    //   "process.env.NODE_ENV": '"development"',
+    // }),
   ],
   devServer: {
     static: {
