@@ -1,3 +1,5 @@
+const webpack = require("webpack");
+
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
@@ -8,7 +10,7 @@ const config = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: '', // 域名
+    publicPath: "", // 域名
   },
   cache: {
     type: "memory",
@@ -42,10 +44,14 @@ const config = {
     ],
   },
   plugins: [
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new HTMLWebpackPlugin({
       template: "./src/index.html",
     }),
     new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": '"production"',
+    }),
   ],
 };
 

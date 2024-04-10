@@ -47,18 +47,31 @@ const config = {
     new HTMLWebpackPlugin({
       template: "./src/index.html",
     }),
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": '"development"',
+    }),
   ],
   devServer: {
     static: {
       directory: path.join(__dirname, "public"),
     },
-    compress: true,
+    compress: true, // 开启gzip压缩
     port: 9000,
     hot: true,
+    historyApiFallback: true, // 单页面路由遇到404问题
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false
+      }
+    }
     // proxy: {
     //   "/api": "http://localhost:3000",
     // },
   },
+  externals: {
+    jquery: 'jQuery'
+  }
 };
 
 module.exports = config;
