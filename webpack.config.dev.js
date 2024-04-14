@@ -2,13 +2,16 @@ const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 const config = {
+  entry: {
+    index: "./src/index.js",
+  },
   // entry: { index: "./src/index.js", print: "./src/print.js" },
   // entry: { index: "./src/index.js", another: "./src/another-module.js" },
-  entry: {
-    index: { import: "./src/index.js", dependOn: "shared" },
-    another: { import: "./src/another-module.js", dependOn: "shared" },
-    shared: "lodash",
-  },
+  // entry: {
+  //   index: { import: "./src/index.js", dependOn: "shared" },
+  //   another: { import: "./src/another-module.js", dependOn: "shared" },
+  //   shared: "lodash",
+  // },
   mode: "development",
   devtool: "eval-source-map",
   output: {
@@ -86,12 +89,12 @@ const config = {
     jquery: "jQuery",
   },
   // 如果想要在一个 HTML 页面上使用多个入口起点，还需设置 optimization.runtimeChunk: 'single'
-  optimization: {
-    runtimeChunk: "single",
-    splitChunks: {
-      chunks: "all",
-    },
-  },
+  // optimization: {
+  //   runtimeChunk: "single",
+  //   splitChunks: {
+  //     chunks: "all",
+  //   },
+  // },
 };
 
 module.exports = config;
