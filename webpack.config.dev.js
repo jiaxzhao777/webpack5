@@ -2,11 +2,13 @@ const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 const config = {
-  entry: "./src/index.js",
+  entry: { index: "./src/index.js", print: "./src/print.js" },
   mode: "development",
+  devtool: "eval-source-map",
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   cache: {
     type: "memory",
@@ -43,7 +45,7 @@ const config = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
     ],
   },
@@ -57,7 +59,8 @@ const config = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, "public"),
+      static: "./dist",
+      // directory: path.join(__dirname, "public"),
     },
     compress: true, // 开启gzip压缩
     port: 9000,
@@ -66,16 +69,20 @@ const config = {
     client: {
       overlay: {
         errors: true,
-        warnings: false
-      }
-    }
+        warnings: false,
+      },
+    },
     // proxy: {
     //   "/api": "http://localhost:3000",
     // },
   },
   externals: {
-    jquery: 'jQuery'
-  }
+    jquery: "jQuery",
+  },
+  // 如果想要在一个 HTML 页面上使用多个入口起点，还需设置 optimization.runtimeChunk: 'single'
+  optimization: {
+    runtimeChunk: "single",
+  },
 };
 
 module.exports = config;

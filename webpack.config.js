@@ -4,16 +4,17 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: { index: "./src/index.js", print: "./src/print.js" },
   mode: "development",
   devtool: false,
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   module: {
     rules: [
-      { 
+      {
         test: /\.js$/,
         use: {
           loader: "babel-loader",
@@ -45,7 +46,7 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
     ],
   },
@@ -58,10 +59,15 @@ module.exports = {
     require("autoprefixer"),
   ],
   devServer: {
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
+    static: "./dist",
+    // static: {
+    //   directory: path.join(__dirname, "public"),
+    // },
     compress: true,
     port: 3000,
+  },
+  // 如果想要在一个 HTML 页面上使用多个入口起点，还需设置 optimization.runtimeChunk: 'single'
+  optimization: {
+    runtimeChunk: "single",
   },
 };

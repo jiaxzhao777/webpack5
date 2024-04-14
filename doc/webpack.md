@@ -76,3 +76,38 @@ webpack 性能提示
 ### 14.stats
 
 webpack 日志输出的一些配置
+
+### 15.性能优化
+
+1. 解决多入口依赖抽取问题(面试时可说)
+   https://bundlers.tooling.report/code-splitting/multi-entry/
+
+```js
+const path = require("path");
+
+module.exports = {
+  mode: "development",
+  entry: {
+    index: {
+      import: "./src/index.js",
+      dependOn: "shared",
+    },
+    another: {
+      import: "./src/another-module.js",
+      dependOn: "shared",
+    },
+    shared: "lodash",
+  },
+  output: {
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  optimization: {
+    runtimeChunk: "single",
+  },
+};
+```
+
+2. 预加载和预获取
+   a. 预获取: 在页面 A 去请求 B
+   b. 预加载: 组件分包

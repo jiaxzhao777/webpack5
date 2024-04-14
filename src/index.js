@@ -1,5 +1,6 @@
 import "./index.css";
 import Icon from "./image.png";
+import printMe from "./print";
 
 const say = (statements) => {
   console.log(statements);
@@ -25,7 +26,16 @@ function imageComponent() {
 
   return element;
 }
+
+function btnComponent() {
+  const btn = document.createElement("button");
+  btn.innerHTML = "Click me and check the console!";
+  btn.onclick = printMe;
+
+  element.appendChild(btn);
+}
 document.body.appendChild(imageComponent());
+document.body.appendChild(btnComponent());
 
 // 使用node来启动一个服务
 const source = new EventSource("http://localhost:8080/getInfo");

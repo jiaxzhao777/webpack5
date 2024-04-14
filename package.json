@@ -2,7 +2,8 @@
   "scripts": {
     "devServer": "webpack serve --config webpack.config.dev.js",
     "buildDev": "webpack build --config webpack.config.dev.js",
-    "buildProd": "webpack build --config webpack.config.prod.js"
+    "buildProd": "webpack build --config webpack.config.prod.js",
+    "watch": "webpack --watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.9",
