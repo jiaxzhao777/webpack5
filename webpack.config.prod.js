@@ -15,6 +15,7 @@ const config = {
   cache: {
     type: "memory",
   },
+  devTool: "source-map",
   module: {
     rules: [
       {
