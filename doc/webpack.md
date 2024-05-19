@@ -117,3 +117,41 @@ module.exports = {
 - 预加载 chunk 具有中等优先级，并会立即下载；而预获取 chunk 则在浏览器闲置时下载。
 - 预加载 chunk 会在父 chunk 中立即请求，用于当下时刻；而预获取 chunk 则用于未来的某个时刻。
 - 浏览器支持程度不同。
+
+3. 优化
+
+- webpack 保持最新版本，Node.js 尽量最新版本
+- loader 通过 include 定义编译的范围
+- 减少 resolve.modules, resolve.extensions, resolve.mainFiles, resolve.descriptionFiles 中条目数量，因为 他们会增加文件系统调用的次数。
+- 如果不使用 symlinks（例如 npm link 或者 yarn link），可以设置 resolve.symlinks: false。
+- 如果使用自定义解析插件规则，并且没有指定上下文，可以设置 resolve.cacheWithContext: false。
+
+- DLL 优化
+  1. 优化后需要 2 步
+  - npm run dll
+  - npm run dev
+
+### 深入理解 chunk
+
+1. webpack 首先根据`entry`配置创建若干 Chunk 对象
+
+2. 遍历构建阶段找到所有的 Module 对象, 同一 Entry 下的模块分配到 Entry 对应的 Chunk 中
+
+3. 遇到异步模块则创建新的 Chunk 对象，并将异步模块放入该 Chunk；
+
+4. 分配完毕后，根据 SplitChunksPlugin 的启发式算法进一步对这些 Chunk 执行裁剪、拆分、合并、代码调优，最终调整成运行性能(可能)更优的形态；
+
+5. 最后，将这些 Chunk 一个个输出成最终的产物(Asset)文件，编译工作到此结束。
+
+### SplitChunksPlugin 的主体流程如下
+
+1. SplitChunksPlugin 尝试将命中 minChunks 规则的 Module 统一抽到一个额外的 Chunk 对象；
+
+2. 判断该 Chunk 是否满足 maxInitialRequests 阈值，若满足则进行下一步
+
+3. 判断该 Chunk 资源的体积是否大于上述配置项 minSize 声明的下限阈值；
+   - 如果体积小于 minSize 则取消这次分包，对应的 Module 依然会被合并入原来的 Chunk
+   - 如果 Chunk 体积大于 minSize 则判断是否超过 maxSize、maxAsyncSize、maxInitialSize 声明的上限阈值，如果超过则尝试将该 Chunk 继续分割成更小的部分
+
+若此时 Webpack 配置的 minChunks 大于 2，且 maxInitialRequests 也同样大于 2，如果 common 模块的体积大于上述说明的 minSize 配置项则分包成功，common 会被分离为单独的 Chunk，否则会被合并入原来的 3 个 Chunk
+miSize

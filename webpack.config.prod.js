@@ -15,7 +15,7 @@ const config = {
   cache: {
     type: "memory",
   },
-  devTool: "source-map",
+  // devTool: "source-map", 消耗性能
   module: {
     rules: [
       {

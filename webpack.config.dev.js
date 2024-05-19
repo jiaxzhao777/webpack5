@@ -15,11 +15,14 @@ const config = {
   //   shared: "lodash",
   // },
   mode: "development",
-  devtool: "eval-source-map",
+  // devtool: "eval-source-map",
+  devtool: "eval-cheap-module-source-map", // best
+  watch: true,
   output: {
     filename: "[name].[contenthash].bundle.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    pathinfo: false,
   },
   cache: {
     type: "memory",
@@ -32,6 +35,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
+        include: path.resolve(__dirname, "src"),
         exclude: {
           and: [/node_modules/],
           not: [/node_modules\/lodash/],
@@ -73,14 +77,14 @@ const config = {
       //   test: /\.ts$/,
       //   use: [
       //     {
-      //       loader: 'ts-loader',
+      //       loader: "ts-loader",
       //       options: {
       //         // 设置为“仅编译”，关闭类型检查
-      //         transpileOnly: true
-      //       }
-      //     }
+      //         transpileOnly: true,
+      //       },
+      //     },
       //   ],
-      // }
+      // },
     ],
   },
   resolve: {
@@ -130,12 +134,13 @@ const config = {
   optimization: {
     removeAvailableModules: false,
     removeEmptyChunks: false,
-    splitChunks: false,
     minimize: false,
     concatenateModules: false,
     usedExports: false,
     runtimeChunk: "single",
     splitChunks: {
+      chunks: "all", // 对 Initial Chunk 与 Async Chunk 都生效，建议优先使用该值
+      minChunks: 2, //  设定引用次数超过 2 的模块才进行分包
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
