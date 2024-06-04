@@ -41,6 +41,17 @@ const config = {
       {
         test: [/\.tmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         type: "asset",
+        use: [
+          {
+            loader: "image-webpack-loader",
+            options: {
+              // jpeg 压缩配置
+              mozjpeg: {
+                quality: 80,
+              },
+            },
+          },
+        ],
       },
     ],
   },
@@ -52,6 +63,16 @@ const config = {
     new MiniCssExtractPlugin(),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": '"production"',
+    }),
+    new SpritesmithPlugin({
+      src: {
+        cwd: path.resolve(__dirname, "src/icons"),
+        glob: "*.png",
+      },
+      target: {
+        image: path.resolve(__dirname, "src/assets/sprite.png"),
+        css: path.resolve(__dirname, "src/assets/sprite.less"),
+      },
     }),
   ],
 };
